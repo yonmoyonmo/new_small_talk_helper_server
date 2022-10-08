@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"log"
 	"net/http"
 
@@ -11,4 +12,5 @@ func TestHandler(resWriter http.ResponseWriter, req *http.Request) {
 	var newSuggestion model.Sugguestion = model.Sugguestion{}
 	newSuggestion = *newSuggestion.InitTimeNow()
 	log.Printf("%v, %T", newSuggestion, newSuggestion)
+	fmt.Fprintf(resWriter, "test: %v\n", newSuggestion.CreatedAt)
 }

@@ -2,10 +2,14 @@ package main
 
 import (
 	"log"
+	"net/http"
+
+	"github.com/yonmoyonmo/new_small_talk_helper_server/router"
 )
 
 func main() {
 	log.Println("new SMTHP server")
+	mux := router.InitializeRouter()
 	// db := dbconn.GetDBConnector()
 
 	// var connectionTest string
@@ -15,5 +19,5 @@ func main() {
 	// }
 	// log.Println(connectionTest)
 	// print("success")
-
+	log.Fatal(http.ListenAndServe(":8888", mux))
 }

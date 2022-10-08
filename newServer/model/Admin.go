@@ -1,7 +1,7 @@
 package model
 
 type Adimin struct {
-	id        int
-	adminName string
-	password  string
+	Id        int
+	AdminName string
+	Password  string
 }

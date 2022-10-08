@@ -5,14 +5,14 @@ import (
 )
 
 type UserSugguestion struct {
-	id        int
-	text      string
-	userName  string
-	createdAt time.Time
+	Id        int
+	Text      string
+	UserName  string
+	CreatedAt time.Time
 }
 
 func (suggestion UserSugguestion) initTimeNow() *UserSugguestion {
 	newSuggestion := UserSugguestion{}
-	newSuggestion.createdAt = time.Now()
+	newSuggestion.CreatedAt = time.Now()
 	return &newSuggestion
 }

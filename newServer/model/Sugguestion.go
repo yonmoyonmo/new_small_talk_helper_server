@@ -6,16 +6,16 @@ import (
 )
 
 type Sugguestion struct {
-	id              int
-	sugguestionType string
-	suggustionText  string
-	countLike       int
-	createdAt       time.Time
+	Id              int
+	SugguestionType string
+	SuggustionText  string
+	CountLike       int
+	CreatedAt       time.Time
 }
 
 func (suggestion Sugguestion) InitTimeNow() *Sugguestion {
 	newSuggestion := Sugguestion{}
-	newSuggestion.createdAt = time.Now()
+	newSuggestion.CreatedAt = time.Now()
 	log.Printf("%T", newSuggestion)
 	return &newSuggestion
 }

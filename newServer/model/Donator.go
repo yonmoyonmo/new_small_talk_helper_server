@@ -1,7 +1,7 @@
 package model
 
 type Donator struct {
-	id          int
-	donatorName string
-	password    string
+	Id          int
+	DonatorName string
+	Password    string
 }
