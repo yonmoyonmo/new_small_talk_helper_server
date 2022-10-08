@@ -8,7 +8,17 @@ import (
 )
 
 func RandomSuggService() model.Sugguestion {
-	log.Println("I'm random sugg serv")
+	log.Println("I'm random sugg service")
 	result := dataaccess.RandomSuggData()
+	return result
+}
+
+func Love36Service() []model.Sugguestion {
+	result := dataaccess.Love36Data()
+	return result
+}
+
+func ToptenService() []model.Sugguestion {
+	result := dataaccess.ToptenData()
 	return result
 }
