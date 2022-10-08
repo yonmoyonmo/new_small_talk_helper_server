@@ -12,6 +12,9 @@ func InitializeRouter() *http.ServeMux {
 	mux := http.NewServeMux()
 	//routes
 	mux.HandleFunc("/test", handler.TestHandler)
+	//random sugguestion
+	smthpBaseURL := "/api/sugguestion/small-talk-helper"
+	mux.HandleFunc(smthpBaseURL+"/random", handler.RandomSuggHandler)
 	//
 	log.Println("router is ready... i think...")
 	return mux

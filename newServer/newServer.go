@@ -10,14 +10,6 @@ import (
 func main() {
 	log.Println("new SMTHP server")
 	mux := router.InitializeRouter()
-	// db := dbconn.GetDBConnector()
-
-	// var connectionTest string
-	// err := db.QueryRow("SELECT sugguestion_text FROM sugguestion WHERE id =12").Scan(&connectionTest)
-	// if err != nil {
-	// 	log.Fatal(err)
-	// }
-	// log.Println(connectionTest)
-	// print("success")
+	log.Println("Listing... at 8888")
 	log.Fatal(http.ListenAndServe(":8888", mux))
 }

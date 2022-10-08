@@ -11,10 +11,6 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func TestLog(testStr string) {
-	log.Println(testStr)
-}
-
 func GetDBConnector() *sql.DB {
 	err := godotenv.Load()
 	if err != nil {
@@ -31,6 +27,7 @@ func GetDBConnector() *sql.DB {
 		AllowNativePasswords: true,
 		CheckConnLiveness:    true,
 		DBName:               os.Getenv("DB_NAME"),
+		ParseTime:            true,
 	}
 	connector, err := mysql.NewConnector(&cfg)
 	if err != nil {
