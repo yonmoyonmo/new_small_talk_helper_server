@@ -17,6 +17,7 @@ func InitializeRouter() *http.ServeMux {
 	mux.HandleFunc(smthpBaseURL+"/random", handler.RandomSuggHandler)
 	mux.HandleFunc(smthpBaseURL+"/love36", handler.Love36Handler)
 	mux.HandleFunc(smthpBaseURL+"/topten", handler.ToptenHandler)
+	mux.HandleFunc(smthpBaseURL+"/favorite", handler.FavoriteHandler)
 	//admin
 	//etc
 	log.Println("router is ready... i think...")
