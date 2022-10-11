@@ -5,3 +5,8 @@ type Donator struct {
 	DonatorName string `json:"donator_name" db:"donator_name"`
 	Password    string `json:"password" db:"password"`
 }
+
+type DonationMessage struct {
+	Success bool   `json:"success"`
+	Message string `json:"message"`
+}

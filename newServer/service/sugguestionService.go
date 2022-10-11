@@ -34,3 +34,7 @@ func ApplyLikes(likes model.Liikes) bool {
 	result := dataaccess.UpdateLikes(likes.SugguestionId, likes.LikeValue)
 	return result
 }
+
+func CreateNewUserSugg(newUserSugg model.UserSugguestion) bool {
+	return dataaccess.InsertNewUserSugg(newUserSugg.UserName, newUserSugg.Text)
+}

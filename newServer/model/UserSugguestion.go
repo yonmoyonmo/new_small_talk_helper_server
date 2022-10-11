@@ -6,12 +6,12 @@ import (
 
 type UserSugguestion struct {
 	Id        int       `json:"id" db:"id"`
+	UserName  string    `json:"userName" db:"user_name"`
 	Text      string    `json:"text" db:"text"`
-	UserName  string    `json:"user_name" db:"user_name"`
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 }
 
-func (suggestion UserSugguestion) initTimeNow() *UserSugguestion {
+func (suggestion UserSugguestion) InitTimeNow() *UserSugguestion {
 	newSuggestion := UserSugguestion{}
 	newSuggestion.CreatedAt = time.Now()
 	return &newSuggestion

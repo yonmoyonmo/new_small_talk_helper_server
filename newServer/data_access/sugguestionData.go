@@ -95,3 +95,14 @@ func UpdateLikes(suggId int, likeValue int) bool {
 	}
 	return true
 }
+
+func InsertNewUserSugg(userName string, text string) bool {
+	db := dbconn.GetDBConnector()
+	log.Println(userName, text)
+	_, err := db.Exec("INSERT INTO user_sugguestion(user_name, text) value (?, ?)", userName, text)
+	if err != nil {
+		log.Println("InsertNewUserSugg : something went wrong")
+		log.Fatal(err)
+	}
+	return true
+}

@@ -58,3 +58,16 @@ func LikesHandler(resWriter http.ResponseWriter, req *http.Request) {
 		json.NewEncoder(resWriter).Encode(result)
 	}
 }
+
+func UserSugguestionHandler(resWriter http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case http.MethodPost:
+		var newUserSugg model.UserSugguestion = model.UserSugguestion{}
+		newUserSugg = *newUserSugg.InitTimeNow()
+		json.NewDecoder(req.Body).Decode(&newUserSugg)
+		log.Println(newUserSugg)
+		result := service.CreateNewUserSugg(newUserSugg)
+		resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
+		json.NewEncoder(resWriter).Encode(result)
+	}
+}

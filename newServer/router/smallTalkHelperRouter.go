@@ -18,8 +18,13 @@ func InitializeRouter() *http.ServeMux {
 	mux.HandleFunc(smthpBaseURL+"/topten", handler.ToptenHandler)
 	mux.HandleFunc(smthpBaseURL+"/favorite", handler.FavoriteHandler)
 	mux.HandleFunc(smthpBaseURL+"/likes", handler.LikesHandler)
+	mux.HandleFunc(smthpBaseURL+"/users-sugguestion", handler.UserSugguestionHandler)
+	//small talk helper donator
+	donatorBase := "/api/donator"
+	mux.HandleFunc(donatorBase+"/register", handler.RegisterNewDonatorHandler)
+	mux.HandleFunc(donatorBase+"/check", handler.CheckDonatorHandler)
+
 	//admin
-	//etc
 	log.Println("router is ready... i think...")
 	return mux
 }
