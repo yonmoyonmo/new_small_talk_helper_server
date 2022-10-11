@@ -7,7 +7,7 @@ import (
 	"github.com/yonmoyonmo/new_small_talk_helper_server/model"
 )
 
-func RandomSuggData() model.Sugguestion {
+func GetRandomSuggData() model.Sugguestion {
 	db := dbconn.GetDBConnector()
 	var rds model.Sugguestion
 
@@ -21,7 +21,7 @@ func RandomSuggData() model.Sugguestion {
 	return rds
 }
 
-func Love36Data() []model.Sugguestion {
+func GetLove36Data() []model.Sugguestion {
 	db := dbconn.GetDBConnector()
 	var resultList []model.Sugguestion
 
@@ -42,7 +42,7 @@ func Love36Data() []model.Sugguestion {
 	return resultList
 }
 
-func ToptenData() []model.Sugguestion {
+func GetToptenData() []model.Sugguestion {
 	db := dbconn.GetDBConnector()
 	var resultList []model.Sugguestion
 
@@ -63,7 +63,7 @@ func ToptenData() []model.Sugguestion {
 	return resultList
 }
 
-func FavoriteData(ids string) []model.Sugguestion {
+func GetFavoriteData(ids string) []model.Sugguestion {
 	db := dbconn.GetDBConnector()
 	var resultList []model.Sugguestion
 	var whereCondition string = "WHERE id IN (" + ids + ")"
@@ -82,4 +82,16 @@ func FavoriteData(ids string) []model.Sugguestion {
 		resultList = append(resultList, s)
 	}
 	return resultList
+}
+
+func UpdateLikes(suggId int, likeValue int) bool {
+	db := dbconn.GetDBConnector()
+	log.Println(suggId, likeValue)
+
+	_, err := db.Exec("UPDATE sugguestion SET count_likes = count_likes + ? WHERE id= ?", likeValue, suggId)
+	if err != nil {
+		log.Println("UpdateLikes : something went wrong")
+		log.Fatal(err)
+	}
+	return true
 }

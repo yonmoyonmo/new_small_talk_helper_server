@@ -10,22 +10,27 @@ import (
 
 func RandomSuggService() model.Sugguestion {
 	log.Println("I'm random sugg service")
-	result := dataaccess.RandomSuggData()
+	result := dataaccess.GetRandomSuggData()
 	return result
 }
 
 func Love36Service() []model.Sugguestion {
-	result := dataaccess.Love36Data()
+	result := dataaccess.GetLove36Data()
 	return result
 }
 
 func ToptenService() []model.Sugguestion {
-	result := dataaccess.ToptenData()
+	result := dataaccess.GetToptenData()
 	return result
 }
 
-func FavoriteHandler(idList model.FavoriteIdList) []model.Sugguestion {
+func FavoriteService(idList model.FavoriteIdList) []model.Sugguestion {
 	var idsString string = strings.Join(idList.FavoriteIdList, ",")
-	result := dataaccess.FavoriteData(idsString)
+	result := dataaccess.GetFavoriteData(idsString)
+	return result
+}
+
+func ApplyLikes(likes model.Liikes) bool {
+	result := dataaccess.UpdateLikes(likes.SugguestionId, likes.LikeValue)
 	return result
 }

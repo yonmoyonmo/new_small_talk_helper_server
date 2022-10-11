@@ -42,8 +42,19 @@ func FavoriteHandler(resWriter http.ResponseWriter, req *http.Request) {
 	case http.MethodPost:
 		var favoriteIdList model.FavoriteIdList
 		json.NewDecoder(req.Body).Decode(&favoriteIdList)
-		var favoriteSuggList []model.Sugguestion = service.FavoriteHandler(favoriteIdList)
+		var favoriteSuggList []model.Sugguestion = service.FavoriteService(favoriteIdList)
 		resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
 		json.NewEncoder(resWriter).Encode(favoriteSuggList)
+	}
+}
+
+func LikesHandler(resWriter http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case http.MethodPost:
+		var likes model.Liikes
+		json.NewDecoder(req.Body).Decode(&likes)
+		var result bool = service.ApplyLikes(likes)
+		resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
+		json.NewEncoder(resWriter).Encode(result)
 	}
 }
