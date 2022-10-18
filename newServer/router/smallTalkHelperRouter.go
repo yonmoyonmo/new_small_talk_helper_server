@@ -23,8 +23,9 @@ func InitializeRouter() *http.ServeMux {
 	donatorBase := "/api/donator"
 	mux.HandleFunc(donatorBase+"/register", handler.RegisterNewDonatorHandler)
 	mux.HandleFunc(donatorBase+"/check", handler.CheckDonatorHandler)
-
 	//admin
+	mux.HandleFunc("/api/admin/register", handler.AdminRegisterHandler)
+
 	log.Println("router is ready... i think...")
 	return mux
 }
