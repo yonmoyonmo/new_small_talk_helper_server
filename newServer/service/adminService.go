@@ -8,8 +8,33 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
+func AdminLoginService(inputAdmin model.Admin) bool {
+	if inputAdmin.AdminName == "" || inputAdmin.Password == "" {
+		log.Println("no name no gain")
+		return false
+	}
+
+	existingAdmin := dataaccess.GetAdmin(inputAdmin.AdminName)
+	if existingAdmin.Id == 0 {
+		log.Println("this admin not exists")
+		return false
+	} else {
+		log.Println(existingAdmin.Password)
+		hashedPassword := existingAdmin.Password
+		err := bcrypt.CompareHashAndPassword([]byte(hashedPassword), []byte(inputAdmin.Password))
+		if err != nil {
+			log.Println("password not matched")
+			return false
+		} else {
+			return true
+		}
+	}
+
+}
+
 func RegisterAdmin(newAdmin model.Admin) bool {
 	if newAdmin.AdminName == "" || newAdmin.Password == "" {
+		log.Println("no name no gain")
 		return false
 	}
 	isAdminIsValid := dataaccess.GetAdmin(newAdmin.AdminName)

@@ -12,6 +12,7 @@ func GetAdmin(adminName string) model.Admin {
 	var resultAdmin model.Admin
 	err := db.QueryRow("SELECT * FROM admin WHERE admin_name = ?", adminName).Scan(&resultAdmin.Id, &resultAdmin.AdminName, &resultAdmin.Password)
 	if err != nil {
+		log.Println("no matched admin name")
 		log.Println(err)
 		resultAdmin.Id = 0
 		return resultAdmin
