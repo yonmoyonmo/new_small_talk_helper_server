@@ -32,3 +32,15 @@ func InsertNewAdmin(adminName string, password string) bool {
 		return true
 	}
 }
+
+func InsertNewSugguestion(newSugg model.Sugguestion) bool {
+	db := dbconn.GetDBConnector()
+	_, err := db.Exec("INSERT INTO sugguestion(sugguestion_text, sugguestion_type) value(?, ?)", newSugg.SuggustionText, newSugg.SugguestionType)
+	if err != nil {
+		log.Println("insert new sugguestion error")
+		log.Println(err)
+		return false
+	} else {
+		return true
+	}
+}

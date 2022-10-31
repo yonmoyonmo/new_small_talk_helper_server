@@ -52,3 +52,20 @@ func RegisterAdmin(newAdmin model.Admin) bool {
 		return result
 	}
 }
+
+func CreateNewSugguestions(sugguestion model.Sugguestion) model.SimpleResponseType {
+	log.Println("in create new sugguestion service")
+	log.Println(sugguestion)
+
+	var newSimpleResponse model.SimpleResponseType
+	newSimpleResponse.Message = "good"
+	newSimpleResponse.Success = true
+
+	sqlResult := dataaccess.InsertNewSugguestion(sugguestion)
+	if !sqlResult {
+		newSimpleResponse.Message = "failed"
+		newSimpleResponse.Success = false
+	}
+
+	return newSimpleResponse
+}

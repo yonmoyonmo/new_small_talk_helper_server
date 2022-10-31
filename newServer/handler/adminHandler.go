@@ -29,13 +29,17 @@ func AdminLoginHandler(resWriter http.ResponseWriter, req *http.Request) {
 		var inputAdmin model.Admin
 		err := json.NewDecoder(req.Body).Decode(&inputAdmin)
 		if err != nil {
+			log.Println("decoding req.body failed")
 			log.Println(err)
+			resWriter.WriteHeader(http.StatusInternalServerError)
 			return
 		}
+
 		loginResult := service.AdminLoginService(inputAdmin)
 		log.Println(loginResult)
 		if loginResult == false {
 			resWriter.WriteHeader(http.StatusBadRequest)
+			return
 		} else {
 			resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
 			var tokenResponse model.AdminToken = model.AdminToken{}
@@ -61,7 +65,13 @@ func AdminRegisterHandler(resWriter http.ResponseWriter, req *http.Request) {
 	switch req.Method {
 	case http.MethodPost:
 		var newAdmin model.Admin
-		json.NewDecoder(req.Body).Decode(&newAdmin)
+		err := json.NewDecoder(req.Body).Decode(&newAdmin)
+		if err != nil {
+			log.Println("decoding req.body failed")
+			log.Println(err)
+			resWriter.WriteHeader(http.StatusInternalServerError)
+			return
+		}
 		log.Printf("new Admin : %v", newAdmin.AdminName)
 
 		wonmoKey := req.URL.Query().Get("key")
@@ -76,6 +86,53 @@ func AdminRegisterHandler(resWriter http.ResponseWriter, req *http.Request) {
 			json.NewEncoder(resWriter).Encode(result)
 		} else {
 			resWriter.WriteHeader(http.StatusInternalServerError)
+		}
+	}
+}
+
+func verifyJWT(req *http.Request) bool {
+	secret := []byte(os.Getenv("JWTKEY"))
+	token, err := jwt.Parse(req.Header["Authorization"][0], func(token *jwt.Token) (interface{}, error) {
+		return secret, nil
+	})
+	if err != nil {
+		return false
+	}
+	if token.Valid {
+		return true
+	} else {
+		return false
+	}
+}
+
+func RegisterSugguestionsHandler(resWriter http.ResponseWriter, req *http.Request) {
+	//verify token in req header.authentication
+	//if verified -> create new sugguestions
+	switch req.Method {
+	case http.MethodPost:
+		if req.Header["Authorization"] != nil {
+			if verifyJWT(req) {
+				var newSuggestion model.Sugguestion
+				err := json.NewDecoder(req.Body).Decode(&newSuggestion)
+				if err != nil {
+					log.Println("decoding req.body failed")
+					log.Println(err)
+					resWriter.WriteHeader(http.StatusInternalServerError)
+					return
+				}
+				//create sugguestions
+				var result model.SimpleResponseType = service.CreateNewSugguestions(newSuggestion)
+
+				resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
+				json.NewEncoder(resWriter).Encode(result)
+
+			} else {
+				log.Println("invalid token")
+				resWriter.WriteHeader(http.StatusBadRequest)
+			}
+		} else {
+			log.Println("no token in header")
+			resWriter.WriteHeader(http.StatusBadRequest)
 		}
 	}
 }

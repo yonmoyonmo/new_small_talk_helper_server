@@ -11,7 +11,7 @@ func InitializeRouter() *http.ServeMux {
 	log.Println("initializing router...")
 	mux := http.NewServeMux()
 	//routes
-	//small talk helper
+	//small talk helper service
 	smthpBaseURL := "/api/sugguestion/small-talk-helper"
 	mux.HandleFunc(smthpBaseURL+"/random", handler.RandomSuggHandler)
 	mux.HandleFunc(smthpBaseURL+"/love36", handler.Love36Handler)
@@ -26,7 +26,10 @@ func InitializeRouter() *http.ServeMux {
 	//admin
 	mux.HandleFunc("/api/admin/login", handler.AdminLoginHandler)
 	mux.HandleFunc("/api/admin/register", handler.AdminRegisterHandler)
+	//admin sugguestion management
+	mux.HandleFunc("/api/sugguestion/register/multiple", handler.RegisterSugguestionsHandler)
 
-	log.Println("router is ready... i think...")
+	//done
+	log.Println("routing done")
 	return mux
 }

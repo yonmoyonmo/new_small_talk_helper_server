@@ -11,7 +11,7 @@ type UserSugguestion struct {
 	CreatedAt time.Time `json:"created_at" db:"created_at"`
 }
 
-func (suggestion UserSugguestion) InitTimeNow() *UserSugguestion {
+func (s *UserSugguestion) InitTimeNow() *UserSugguestion {
 	newSuggestion := UserSugguestion{}
 	newSuggestion.CreatedAt = time.Now()
 	return &newSuggestion
