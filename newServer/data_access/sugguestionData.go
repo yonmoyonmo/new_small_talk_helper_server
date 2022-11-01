@@ -16,7 +16,9 @@ func GetRandomSuggData() model.Sugguestion {
 
 	err := db.QueryRow(randomSuggSQL).Scan(&rds.Id, &rds.SugguestionType, &rds.SuggustionText, &rds.CountLike, &rds.CreatedAt)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("GetRandomSuggData error")
+		log.Println(err)
+		return rds
 	}
 	return rds
 }
@@ -29,13 +31,16 @@ func GetLove36Data() []model.Sugguestion {
 
 	rows, err := db.Query(love36SQL)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("GetLove36Data error")
+		log.Println(err)
+		return resultList
 	}
 	for rows.Next() {
 		s := model.Sugguestion{}
 		err := rows.Scan(&s.Id, &s.SugguestionType, &s.SuggustionText, &s.CountLike, &s.CreatedAt)
 		if err != nil {
-			log.Fatalf("could not scan row: %v", err)
+			log.Printf("could not scan row: %v", err)
+			return resultList
 		}
 		resultList = append(resultList, s)
 	}
@@ -50,13 +55,16 @@ func GetToptenData() []model.Sugguestion {
 
 	rows, err := db.Query(toptenSQL)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("GetToptenData")
+		log.Println(err)
+		return resultList
 	}
 	for rows.Next() {
 		s := model.Sugguestion{}
 		err := rows.Scan(&s.Id, &s.SugguestionType, &s.SuggustionText, &s.CountLike, &s.CreatedAt)
 		if err != nil {
-			log.Fatalf("could not scan row: %v", err)
+			log.Printf("could not scan row: %v", err)
+			return resultList
 		}
 		resultList = append(resultList, s)
 	}
@@ -71,13 +79,16 @@ func GetFavoriteData(ids string) []model.Sugguestion {
 	var favoriteSQL string = "SELECT * FROM sugguestion " + whereCondition
 	rows, err := db.Query(favoriteSQL)
 	if err != nil {
-		log.Fatal(err)
+		log.Println("GetToptenData")
+		log.Println(err)
+		return resultList
 	}
 	for rows.Next() {
 		s := model.Sugguestion{}
 		err := rows.Scan(&s.Id, &s.SugguestionType, &s.SuggustionText, &s.CountLike, &s.CreatedAt)
 		if err != nil {
-			log.Fatalf("could not scan row: %v", err)
+			log.Printf("could not scan row: %v", err)
+			return resultList
 		}
 		resultList = append(resultList, s)
 	}
@@ -91,7 +102,8 @@ func UpdateLikes(suggId int, likeValue int) bool {
 	_, err := db.Exec("UPDATE sugguestion SET count_likes = count_likes + ? WHERE id= ?", likeValue, suggId)
 	if err != nil {
 		log.Println("UpdateLikes : something went wrong")
-		log.Fatal(err)
+		log.Println(err)
+		return false
 	}
 	return true
 }
@@ -102,7 +114,8 @@ func InsertNewUserSugg(userName string, text string) bool {
 	_, err := db.Exec("INSERT INTO user_sugguestion(user_name, text) value (?, ?)", userName, text)
 	if err != nil {
 		log.Println("InsertNewUserSugg : something went wrong")
-		log.Fatal(err)
+		log.Println(err)
+		return false
 	}
 	return true
 }
