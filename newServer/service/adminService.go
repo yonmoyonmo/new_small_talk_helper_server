@@ -69,3 +69,35 @@ func CreateNewSugguestions(sugguestion model.Sugguestion) model.SimpleResponseTy
 
 	return newSimpleResponse
 }
+
+func UpdateSugguestion(targetSugg model.Sugguestion) model.SimpleResponseType {
+	log.Println("update existing sugguestion")
+
+	var newSimpleResponse model.SimpleResponseType
+	newSimpleResponse.Message = "good"
+	newSimpleResponse.Success = true
+
+	sqlResult := dataaccess.UpdateSugguestion(targetSugg)
+	if !sqlResult {
+		newSimpleResponse.Message = "failed"
+		newSimpleResponse.Success = false
+	}
+
+	return newSimpleResponse
+}
+
+func DeleteSugguestion(targetSugg model.Sugguestion) model.SimpleResponseType {
+	log.Println("delete existing sugguestion")
+
+	var newSimpleResponse model.SimpleResponseType
+	newSimpleResponse.Message = "good"
+	newSimpleResponse.Success = true
+
+	sqlResult := dataaccess.DeleteSugguestion(targetSugg)
+	if !sqlResult {
+		newSimpleResponse.Message = "failed"
+		newSimpleResponse.Success = false
+	}
+
+	return newSimpleResponse
+}

@@ -120,8 +120,69 @@ func RegisterSugguestionsHandler(resWriter http.ResponseWriter, req *http.Reques
 					resWriter.WriteHeader(http.StatusInternalServerError)
 					return
 				}
-				//create sugguestions
+				//TODO : parse string including \n into sugguestions and insert each
+
 				var result model.SimpleResponseType = service.CreateNewSugguestions(newSuggestion)
+
+				resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
+				json.NewEncoder(resWriter).Encode(result)
+
+			} else {
+				log.Println("invalid token")
+				resWriter.WriteHeader(http.StatusBadRequest)
+			}
+		} else {
+			log.Println("no token in header")
+			resWriter.WriteHeader(http.StatusBadRequest)
+		}
+	}
+}
+
+func UpdateSugguestionHandler(resWriter http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case http.MethodPost:
+		if req.Header["Authorization"] != nil {
+			if verifyJWT(req) {
+				var targetSugg model.Sugguestion
+				err := json.NewDecoder(req.Body).Decode(&targetSugg)
+				if err != nil {
+					log.Println("decoding req.body failed")
+					log.Println(err)
+					resWriter.WriteHeader(http.StatusInternalServerError)
+					return
+				}
+				//create sugguestions
+				var result model.SimpleResponseType = service.UpdateSugguestion(targetSugg)
+
+				resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
+				json.NewEncoder(resWriter).Encode(result)
+
+			} else {
+				log.Println("invalid token")
+				resWriter.WriteHeader(http.StatusBadRequest)
+			}
+		} else {
+			log.Println("no token in header")
+			resWriter.WriteHeader(http.StatusBadRequest)
+		}
+	}
+}
+
+func DeleteSugguestionHandler(resWriter http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case http.MethodDelete:
+		if req.Header["Authorization"] != nil {
+			if verifyJWT(req) {
+				var targetSugg model.Sugguestion
+				err := json.NewDecoder(req.Body).Decode(&targetSugg)
+				if err != nil {
+					log.Println("decoding req.body failed")
+					log.Println(err)
+					resWriter.WriteHeader(http.StatusInternalServerError)
+					return
+				}
+				//create sugguestions
+				var result model.SimpleResponseType = service.DeleteSugguestion(targetSugg)
 
 				resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
 				json.NewEncoder(resWriter).Encode(result)

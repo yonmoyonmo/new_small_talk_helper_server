@@ -39,6 +39,33 @@ func InsertNewSugguestion(newSugg model.Sugguestion) bool {
 	if err != nil {
 		log.Println("insert new sugguestion error")
 		log.Println(err)
+		log.Println(newSugg)
+		return false
+	} else {
+		return true
+	}
+}
+
+func UpdateSugguestion(targetSugg model.Sugguestion) bool {
+	db := dbconn.GetDBConnector()
+	_, err := db.Exec("UPDATE sugguestion SET sugguestion_text = ?,  sugguestion_type = ? WHERE id= ? ", targetSugg.SuggustionText, targetSugg.SugguestionType, targetSugg.Id)
+	if err != nil {
+		log.Println("update sugguestion sugguestion error")
+		log.Println(err)
+		log.Println(targetSugg)
+		return false
+	} else {
+		return true
+	}
+}
+
+func DeleteSugguestion(targetSugg model.Sugguestion) bool {
+	db := dbconn.GetDBConnector()
+	_, err := db.Exec("DELETE FROM sugguestion WHERE id= ? ", targetSugg.Id)
+	if err != nil {
+		log.Println("delete sugguestion sugguestion error")
+		log.Println(err)
+		log.Println(targetSugg)
 		return false
 	} else {
 		return true
