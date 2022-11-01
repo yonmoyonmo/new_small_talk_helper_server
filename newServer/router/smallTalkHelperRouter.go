@@ -30,7 +30,8 @@ func InitializeRouter() *http.ServeMux {
 	mux.HandleFunc("/api/sugguestion/register/multiple", handler.RegisterSugguestionsHandler)
 	mux.HandleFunc("/api/sugguestion/update", handler.UpdateSugguestionHandler)
 	mux.HandleFunc("/api/sugguestion/delete", handler.DeleteSugguestionHandler)
-
+	mux.HandleFunc("/api/sugguestion/list", handler.GetSugguestionListHandler)
+	mux.HandleFunc("/api/sugguestion/usersugguestions", handler.GetUserSugguestionListHandler)
 	//done
 	log.Println("routing done")
 	return mux

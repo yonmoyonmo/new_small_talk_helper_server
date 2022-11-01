@@ -101,3 +101,27 @@ func DeleteSugguestion(targetSugg model.Sugguestion) model.SimpleResponseType {
 
 	return newSimpleResponse
 }
+
+func GetSugguestionList(page int, limit int) []model.Sugguestion {
+	log.Println("get sugg list")
+	var offset int = (page - 1) * limit
+	resultList := dataaccess.ReadSugguestionList(limit, offset)
+	if len(resultList) == 0 {
+		log.Println("failed")
+		return resultList
+	} else {
+		return resultList
+	}
+}
+
+func GetUserSugguestionList(page int, limit int) []model.UserSugguestion {
+	log.Println("get user sugg list")
+	var offset int = (page - 1) * limit
+	resultList := dataaccess.ReadUserSugguestionList(limit, offset)
+	if len(resultList) == 0 {
+		log.Println("failed")
+		return resultList
+	} else {
+		return resultList
+	}
+}

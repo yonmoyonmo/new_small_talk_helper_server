@@ -6,6 +6,8 @@ import (
 	"net/http"
 	"os"
 
+	"strconv"
+
 	"github.com/golang-jwt/jwt"
 	"github.com/yonmoyonmo/new_small_talk_helper_server/model"
 	"github.com/yonmoyonmo/new_small_talk_helper_server/service"
@@ -195,5 +197,55 @@ func DeleteSugguestionHandler(resWriter http.ResponseWriter, req *http.Request) 
 			log.Println("no token in header")
 			resWriter.WriteHeader(http.StatusBadRequest)
 		}
+	}
+}
+
+func GetSugguestionListHandler(resWriter http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case http.MethodGet:
+		query := req.URL.Query()
+		log.Println("debug query string")
+		log.Println(query)
+		page, present := query["page"]
+		if !present || len(page) == 0 {
+			log.Println("no page")
+			resWriter.WriteHeader(http.StatusBadRequest)
+		}
+		limit, present := query["limit"]
+		if !present || len(limit) == 0 {
+			log.Println("no limit")
+			resWriter.WriteHeader(http.StatusBadRequest)
+		}
+		parsedPage, _ := strconv.Atoi(page[0])
+		parsedLimit, _ := strconv.Atoi(limit[0])
+		var result []model.Sugguestion = service.GetSugguestionList(parsedPage, parsedLimit)
+
+		resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
+		json.NewEncoder(resWriter).Encode(result)
+	}
+}
+
+func GetUserSugguestionListHandler(resWriter http.ResponseWriter, req *http.Request) {
+	switch req.Method {
+	case http.MethodGet:
+		query := req.URL.Query()
+		log.Println("debug query string")
+		log.Println(query)
+		page, present := query["page"]
+		if !present || len(page) == 0 {
+			log.Println("no page")
+			resWriter.WriteHeader(http.StatusBadRequest)
+		}
+		limit, present := query["limit"]
+		if !present || len(limit) == 0 {
+			log.Println("no limit")
+			resWriter.WriteHeader(http.StatusBadRequest)
+		}
+		parsedPage, _ := strconv.Atoi(page[0])
+		parsedLimit, _ := strconv.Atoi(limit[0])
+		var result []model.UserSugguestion = service.GetUserSugguestionList(parsedPage, parsedLimit)
+
+		resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
+		json.NewEncoder(resWriter).Encode(result)
 	}
 }

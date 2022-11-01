@@ -12,8 +12,6 @@ type Sugguestion struct {
 	CreatedAt       time.Time `json:"created_at" db:"created_at"`
 }
 
-type Sugguestions []Sugguestion
-
 func (s *Sugguestion) InitTimeNow() {
 	s.CreatedAt = time.Now()
 }

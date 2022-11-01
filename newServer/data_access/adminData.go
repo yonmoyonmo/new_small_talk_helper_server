@@ -50,7 +50,7 @@ func UpdateSugguestion(targetSugg model.Sugguestion) bool {
 	db := dbconn.GetDBConnector()
 	_, err := db.Exec("UPDATE sugguestion SET sugguestion_text = ?,  sugguestion_type = ? WHERE id= ? ", targetSugg.SuggustionText, targetSugg.SugguestionType, targetSugg.Id)
 	if err != nil {
-		log.Println("update sugguestion sugguestion error")
+		log.Println("update sugguestion error")
 		log.Println(err)
 		log.Println(targetSugg)
 		return false
@@ -63,11 +63,61 @@ func DeleteSugguestion(targetSugg model.Sugguestion) bool {
 	db := dbconn.GetDBConnector()
 	_, err := db.Exec("DELETE FROM sugguestion WHERE id= ? ", targetSugg.Id)
 	if err != nil {
-		log.Println("delete sugguestion sugguestion error")
+		log.Println("delete sugguestion error")
 		log.Println(err)
 		log.Println(targetSugg)
 		return false
 	} else {
 		return true
 	}
+}
+
+func ReadSugguestionList(limit int, offset int) []model.Sugguestion {
+	db := dbconn.GetDBConnector()
+	var resultList []model.Sugguestion
+
+	var suggList string = "SELECT *  FROM sugguestion ORDER BY id DESC LIMIT ? OFFSET ?;"
+
+	rows, err := db.Query(suggList, limit, offset)
+	if err != nil {
+		log.Println("Select sugguestionserror")
+		log.Println(err)
+		return resultList
+	}
+	for rows.Next() {
+		s := model.Sugguestion{}
+		err := rows.Scan(&s.Id, &s.SugguestionType, &s.SuggustionText, &s.CountLike, &s.CreatedAt)
+		if err != nil {
+			log.Println("Select sugguestions error")
+			log.Println(err)
+			return resultList
+		}
+		resultList = append(resultList, s)
+	}
+	return resultList
+}
+
+func ReadUserSugguestionList(limit int, offset int) []model.UserSugguestion {
+	db := dbconn.GetDBConnector()
+	var resultList []model.UserSugguestion
+
+	var suggList string = "SELECT *  FROM user_sugguestion ORDER BY id DESC LIMIT ? OFFSET ?"
+
+	rows, err := db.Query(suggList, limit, offset)
+	if err != nil {
+		log.Println("Select user sugguestions error")
+		log.Println(err)
+		return resultList
+	}
+	for rows.Next() {
+		s := model.UserSugguestion{}
+		err := rows.Scan(&s.Id, &s.Text, &s.UserName, &s.CreatedAt)
+		if err != nil {
+			log.Println("Select user sugguestionserror")
+			log.Println(err)
+			return resultList
+		}
+		resultList = append(resultList, s)
+	}
+	return resultList
 }
