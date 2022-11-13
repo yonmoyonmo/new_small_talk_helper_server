@@ -26,6 +26,9 @@ func ToptenService() []model.Sugguestion {
 
 func FavoriteService(idList model.FavoriteIdList) []model.Sugguestion {
 	var idsString string = strings.Join(idList.FavoriteIdList, ",")
+	if idsString == "" {
+		return nil
+	}
 	result := dataaccess.GetFavoriteData(idsString)
 	return result
 }

@@ -43,8 +43,16 @@ func FavoriteHandler(resWriter http.ResponseWriter, req *http.Request) {
 		var favoriteIdList model.FavoriteIdList
 		json.NewDecoder(req.Body).Decode(&favoriteIdList)
 		var favoriteSuggList []model.Sugguestion = service.FavoriteService(favoriteIdList)
-		resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
-		json.NewEncoder(resWriter).Encode(favoriteSuggList)
+		if favoriteSuggList == nil {
+			var noFav model.Sugguestion
+			noFav.SugguestionType = "error"
+			noFav.SuggustionText = "등록된 즐겨찾기가 없습니다."
+			resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
+			json.NewEncoder(resWriter).Encode(noFav)
+		} else {
+			resWriter.Header().Set("Content-Type", "application/json; charset=utf-8")
+			json.NewEncoder(resWriter).Encode(favoriteSuggList)
+		}
 	}
 }
 
