@@ -18,8 +18,10 @@ func GetRandomSuggData() model.Sugguestion {
 	if err != nil {
 		log.Println("GetRandomSuggData error")
 		log.Println(err)
+		db.Close()
 		return rds
 	}
+	db.Close()
 	return rds
 }
 
@@ -33,6 +35,7 @@ func GetLove36Data() []model.Sugguestion {
 	if err != nil {
 		log.Println("GetLove36Data error")
 		log.Println(err)
+		db.Close()
 		return resultList
 	}
 	for rows.Next() {
@@ -40,10 +43,12 @@ func GetLove36Data() []model.Sugguestion {
 		err := rows.Scan(&s.Id, &s.SugguestionType, &s.SuggustionText, &s.CountLike, &s.CreatedAt)
 		if err != nil {
 			log.Printf("could not scan row: %v", err)
+			db.Close()
 			return resultList
 		}
 		resultList = append(resultList, s)
 	}
+	db.Close()
 	return resultList
 }
 
@@ -57,6 +62,7 @@ func GetToptenData() []model.Sugguestion {
 	if err != nil {
 		log.Println("GetToptenData")
 		log.Println(err)
+		db.Close()
 		return resultList
 	}
 	for rows.Next() {
@@ -64,10 +70,12 @@ func GetToptenData() []model.Sugguestion {
 		err := rows.Scan(&s.Id, &s.SugguestionType, &s.SuggustionText, &s.CountLike, &s.CreatedAt)
 		if err != nil {
 			log.Printf("could not scan row: %v", err)
+			db.Close()
 			return resultList
 		}
 		resultList = append(resultList, s)
 	}
+	db.Close()
 	return resultList
 }
 
@@ -81,6 +89,7 @@ func GetFavoriteData(ids string) []model.Sugguestion {
 	if err != nil {
 		log.Println("GetToptenData")
 		log.Println(err)
+		db.Close()
 		return resultList
 	}
 	for rows.Next() {
@@ -88,10 +97,12 @@ func GetFavoriteData(ids string) []model.Sugguestion {
 		err := rows.Scan(&s.Id, &s.SugguestionType, &s.SuggustionText, &s.CountLike, &s.CreatedAt)
 		if err != nil {
 			log.Printf("could not scan row: %v", err)
+			db.Close()
 			return resultList
 		}
 		resultList = append(resultList, s)
 	}
+	db.Close()
 	return resultList
 }
 
@@ -103,8 +114,10 @@ func UpdateLikes(suggId int, likeValue int) bool {
 	if err != nil {
 		log.Println("UpdateLikes : something went wrong")
 		log.Println(err)
+		db.Close()
 		return false
 	}
+	db.Close()
 	return true
 }
 
@@ -115,7 +128,9 @@ func InsertNewUserSugg(userName string, text string) bool {
 	if err != nil {
 		log.Println("InsertNewUserSugg : something went wrong")
 		log.Println(err)
+		db.Close()
 		return false
 	}
+	db.Close()
 	return true
 }

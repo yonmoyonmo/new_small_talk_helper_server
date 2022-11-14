@@ -12,8 +12,10 @@ func InsertNewDonator(donatorName string, hashedPassword string) bool {
 	_, err := db.Exec("INSERT INTO donator(donator_name, password) value (?, ?)", donatorName, hashedPassword)
 	if err != nil {
 		log.Println(err)
+		db.Close()
 		return false
 	} else {
+		db.Close()
 		return true
 	}
 }
@@ -25,9 +27,11 @@ func GetDonator(donatorName string) model.Donator {
 	if err != nil {
 		log.Println(err)
 		resultDonator.Id = 0
+		db.Close()
 		return resultDonator
 	} else {
 		log.Println(resultDonator)
+		db.Close()
 		return resultDonator
 	}
 }

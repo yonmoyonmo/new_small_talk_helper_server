@@ -15,9 +15,11 @@ func GetAdmin(adminName string) model.Admin {
 		log.Println("no matched admin name")
 		log.Println(err)
 		resultAdmin.Id = 0
+		db.Close()
 		return resultAdmin
 	} else {
 		log.Println(resultAdmin)
+		db.Close()
 		return resultAdmin
 	}
 }
@@ -27,8 +29,10 @@ func InsertNewAdmin(adminName string, password string) bool {
 	_, err := db.Exec("INSERT INTO admin(admin_name, password) value (?, ?)", adminName, password)
 	if err != nil {
 		log.Println(err)
+		db.Close()
 		return false
 	} else {
+		db.Close()
 		return true
 	}
 }
@@ -40,8 +44,10 @@ func InsertNewSugguestion(newSugg model.Sugguestion) bool {
 		log.Println("insert new sugguestion error")
 		log.Println(err)
 		log.Println(newSugg)
+		db.Close()
 		return false
 	} else {
+		db.Close()
 		return true
 	}
 }
@@ -53,8 +59,10 @@ func UpdateSugguestion(targetSugg model.Sugguestion) bool {
 		log.Println("update sugguestion error")
 		log.Println(err)
 		log.Println(targetSugg)
+		db.Close()
 		return false
 	} else {
+		db.Close()
 		return true
 	}
 }
@@ -66,8 +74,10 @@ func DeleteSugguestion(targetSugg model.Sugguestion) bool {
 		log.Println("delete sugguestion error")
 		log.Println(err)
 		log.Println(targetSugg)
+		db.Close()
 		return false
 	} else {
+		db.Close()
 		return true
 	}
 }
@@ -82,6 +92,7 @@ func ReadSugguestionList(limit int, offset int) []model.Sugguestion {
 	if err != nil {
 		log.Println("Select sugguestionserror")
 		log.Println(err)
+		db.Close()
 		return resultList
 	}
 	for rows.Next() {
@@ -90,10 +101,12 @@ func ReadSugguestionList(limit int, offset int) []model.Sugguestion {
 		if err != nil {
 			log.Println("Select sugguestions error")
 			log.Println(err)
+			db.Close()
 			return resultList
 		}
 		resultList = append(resultList, s)
 	}
+	db.Close()
 	return resultList
 }
 
@@ -107,6 +120,7 @@ func ReadUserSugguestionList(limit int, offset int) []model.UserSugguestion {
 	if err != nil {
 		log.Println("Select user sugguestions error")
 		log.Println(err)
+		db.Close()
 		return resultList
 	}
 	for rows.Next() {
@@ -115,9 +129,11 @@ func ReadUserSugguestionList(limit int, offset int) []model.UserSugguestion {
 		if err != nil {
 			log.Println("Select user sugguestionserror")
 			log.Println(err)
+			db.Close()
 			return resultList
 		}
 		resultList = append(resultList, s)
 	}
+	db.Close()
 	return resultList
 }
